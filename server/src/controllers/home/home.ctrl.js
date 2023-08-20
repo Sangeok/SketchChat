@@ -1,4 +1,4 @@
-const roomModel = require("../../models/roomModel");
+const roomModel = require("../../models/roomListModel");
 
 const submit = {
     roomListData : async (req, res) => {

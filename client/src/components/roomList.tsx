@@ -1,14 +1,9 @@
-import { useEffect } from "react"
-
-export default function RoomList() {
-    
-    useEffect(()=>{
-
-    },[])
+export default function RoomList( room : roomType) {
 
     return (
         <div>
-            생성된 방의 list를 보여줍니다.
+            <p>{room.roomTitle}</p>
+            <p>{room.roomPerson}</p>
         </div>
     )
 }

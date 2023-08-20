@@ -2,7 +2,7 @@ module.exports = (socket,roomData) => {
     // 여기에서 roomId값을 생성하여 roomData에 넣은 후 array에 넣어줌.
     //const {roomArray} = require("../../server");
 
-    const roomModel = require('../models/roomModel');
+    const roomModel = require('../models/roomListModel');
     const roomArray = roomModel.getRoomArray();
 
     const getRandomNumber = (min, max) => {
