@@ -1,4 +1,4 @@
-export default function RoomList( room : roomType) {
+export default function RoomList( room : roomType ) {
 
     return (
         <div>

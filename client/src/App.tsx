@@ -5,6 +5,9 @@ import {useRecoilState} from "recoil";
 import {io, Socket} from 'socket.io-client';
 import CreateRoomModal from "./components/createRoomModal";
 import RoomList from './components/roomList';
+import Header from './components/header';
+import Footer from './components/footer';
+import Maincontent from './components/maincontent';
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("http://localhost:3001");
 
@@ -13,24 +16,26 @@ function App() {
   const [roomListArr, setRoomListArr] = useState<roomType[]>([]);
 
   useEffect(()=>{
-    fetch('http://localhost:3001', {
-      method : "POST",
-      headers : {
-          "Content-Type" : "application/json",
-      },
-    })
-    .then((res)=>res.json())
-    .then((res)=>{
-      console.log(res);
-      console.log(`얻고자하는 index : ${res.roomArray.length-1}`);
-      setRoomListArr((pre:roomType[])=>[...pre, res.roomArray[res.roomArray.length-1]])
-    });
+    // fetch('http://localhost:3001', {
+    //   method : "POST",
+    //   headers : {
+    //       "Content-Type" : "application/json",
+    //   },
+    // })
+    // .then((res)=>res.json())
+    // .then((res)=>{
+    //   console.log(res);
+    //   console.log(`얻고자하는 index : ${res.roomArray.length-1}`);
+    //   setRoomListArr((pre:roomType[])=>[...pre, res.roomArray[res.roomArray.length-1]])
+    // });
   },[createRoomModal])
 
 
   return (
     <div className="flex flex-col ">
-      <button onClick={()=>setCreateRoomModal(true)}>방 생성하기</button>
+      <Header/>
+      <Maincontent/>
+      {/* <button onClick={()=>setCreateRoomModal(true)}>방 생성하기</button> */}
       {
         createRoomModal && <CreateRoomModal />
       }
@@ -44,6 +49,7 @@ function App() {
           )
         })
       }
+      <Footer/>
     </div>
   );
 }
