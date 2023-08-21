@@ -8,6 +8,7 @@ import RoomList from './components/roomList';
 import Header from './components/header';
 import Footer from './components/footer';
 import Maincontent from './components/maincontent';
+import Routers from './components/routers';
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("http://localhost:3001");
 
@@ -34,11 +35,11 @@ function App() {
   return (
     <div className="flex flex-col ">
       <Header/>
-      <Maincontent/>
       {/* <button onClick={()=>setCreateRoomModal(true)}>방 생성하기</button> */}
       {
         createRoomModal && <CreateRoomModal />
       }
+      <Routers/>
       {
         // spread syntax를 통해 room안에 있는 모든 요소들을 RoomList로 보냄.
         roomListArr.map((room,index)=>{

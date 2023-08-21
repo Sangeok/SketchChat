@@ -6,7 +6,7 @@ const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
     return (
-        <div className="flex justify-between p-5 shadow-md mb-2.5">
+        <div className="flex justify-between p-5 shadow-md">
             <ul>
                 <li>
                     <Link to="/">ChatAndSketch</Link>

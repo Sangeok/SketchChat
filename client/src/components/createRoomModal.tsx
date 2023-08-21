@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { Button, Dropdown, Label, Modal, TextInput } from 'flowbite-react';
 import io from 'socket.io-client';
 
-interface submitData {
+interface roomDataType {
   roomTitle : string | undefined,
   roomPerson : number | string,
   roomCreateCheck : Boolean,
@@ -22,7 +22,7 @@ export default function CreateRoomModal() {
     if(roomTitle === "") return alert("방 제목을 설정해주세요.");
     if((typeof roomPerson) !== 'number') return alert("인원수를 설정해주세요.");
 
-    const roomData:submitData = {
+    const roomData:roomDataType = {
       roomTitle,
       roomPerson,
       roomCreateCheck : true,

@@ -5,9 +5,10 @@ import Home from '../pages/home'
 import Randomchat from '../pages/randomchat'
 import Myprofile from '../pages/myprofile'
 import Login from '../pages/login'
+import Findingroom from '../pages/findingroom'
 
 
-const Router = () => {
+const Routers = () => {
     // 로그인 유무는 나중에 recoil로 관리
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
@@ -16,7 +17,7 @@ const Router = () => {
         <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/randomchat" element={<Randomchat/>}/>
-            <Route path="/findingroom" element={<Randomchat/>}/>
+            <Route path="/findingroom" element={<Findingroom/>}/>
             {
                 isLoggedIn ? (
                     <Route path="/myprofile" element={<Myprofile/>}/>
@@ -29,4 +30,4 @@ const Router = () => {
     )
 }
 
-export default Router;
+export default Routers;
