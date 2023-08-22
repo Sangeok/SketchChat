@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const ctrl = require("../../controllers/home/home.ctrl");
 
-// 서버에서 front로 방 배열 list보내기
-router.post("/", ctrl.submit.roomListData);
+// 해당 주소로 post(front가 받기 위해선 localhost:3001/findingroom으로 fetch해야함)
+router.post("/findingroom", ctrl.submit.roomListData);
 
 module.exports = router;
