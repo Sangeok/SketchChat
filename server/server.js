@@ -16,6 +16,7 @@ app.use("/",home)
 
 const disconnectHandler = require("./src/handlers/disconnectHandler");
 const createRoomHandler = require("./src/handlers/createRoomHandler");
+const ranChatStartHandler = require("./src/handlers/ranChatStartHandler");
 
 
 dotenv.config();
@@ -32,6 +33,19 @@ io.on("connection", (socket)=>{
         if(data.roomCreateCheck) {
             createRoomHandler(socket,data);
         }
+    })
+
+    // randomChat 방을 만듬
+    socket.on("randomChatStart", (check)=>{
+        console.log(`${socket.id}님이 랜덤채팅 시작하셨습니다..`);
+        if(check){
+            ranChatStartHandler(socket);
+        }
+    })
+
+    socket.on("client_send_message", (data)=>{
+        console.log(`${socket.id}님이 채팅방 ${socket.ranChatRoomId}에 ${data.message}를 보내셨습니다.`)
+        socket.to(socket.ranChatRoomId).emit("server_send_message", data);
     })
 
     socket.on("disconnect", ()=>{

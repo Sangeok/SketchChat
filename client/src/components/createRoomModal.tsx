@@ -2,15 +2,10 @@ import React, {useState} from 'react';
 import { createRoomAtom } from '../recoil/createRoomAtom';
 import { useRecoilState } from "recoil";
 import { Button, Dropdown, Label, Modal, TextInput } from 'flowbite-react';
-import io from 'socket.io-client';
+import {io, Socket} from 'socket.io-client';
 
-interface roomDataType {
-  roomTitle : string | undefined,
-  roomPerson : number | string,
-  roomCreateCheck : Boolean,
-}
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("http://localhost:3001");
 
-const socket = io("http://localhost:3001")
 export default function CreateRoomModal() {
   const limitPerson:number[] = [1,2,3,4];
 
@@ -22,10 +17,11 @@ export default function CreateRoomModal() {
     if(roomTitle === "") return alert("방 제목을 설정해주세요.");
     if((typeof roomPerson) !== 'number') return alert("인원수를 설정해주세요.");
 
-    const roomData:roomDataType = {
+    const roomData:roomType = {
       roomTitle,
       roomPerson,
       roomCreateCheck : true,
+      roomId : "",
     }
     socket.emit("createRoom", roomData);
     // 방 생성 완료 시 modal창 닫기

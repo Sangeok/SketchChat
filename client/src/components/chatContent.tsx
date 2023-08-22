@@ -1,27 +1,24 @@
 import {useState} from 'react'
 
-const ChatContent = () => {
-    // 이게 내 메세지가 아니라면 false, 내 메세지면 true,
-    // 이 부분은 그냥 props로 받는게 맞는듯
-    const [myMessage, setMyMessage] = useState<false>();
+// 내 생각에 자식으로 넘길 때는 무조건 interface로 밖에 안되는듯?
+
+export default function ChatContent( messageData : messageType ) {
 
     return (
-        <div>
+        <div className="flex flex-col w-full">
             {
-                myMessage ? (
+                messageData.myId === messageData.messageId ? (
                     // 내 메세지는 오른쪽으로
-                    <div className="self-end">
-
+                    <div className="self-end px-5">
+                        {messageData.message}
                     </div>
                 ) : (
                     // 상대방 메세지는 왼쪽으로
                     <div className="self-start">
-
+                        {messageData.message}
                     </div>
                 )
             }
         </div>
     )
 }
-
-export default ChatContent;

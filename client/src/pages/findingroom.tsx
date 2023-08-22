@@ -25,7 +25,7 @@ const Findingroom = () => {
       },[createRoomModal])
 
     return (
-        <div>
+        <div style={{minHeight : "77vh"}} className=" bg-gray-100">
             <button onClick={()=>setCreateRoomModal(true)}>방 생성하기</button>
             {
                 createRoomModal && <CreateRoomModal />
