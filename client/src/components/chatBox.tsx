@@ -3,6 +3,9 @@ import {useState, useRef, useEffect} from 'react'
 import {io, Socket} from 'socket.io-client';
 
 import ChatContent from './chatContent';
+import ChatInput from './chatInput';
+import {useRecoilState} from "recoil";
+import {allMessageAtom} from "../recoil/allMessageAtom";
 import { styled } from 'styled-components';
 
 interface propsType {
@@ -29,24 +32,11 @@ const Wrapper = styled.div`
 `;
 
 export default function ChatBox({socket, chatToggle} : propsType) {
-    const [message, setMessage] = useState<string>("");
-    const [allMessage, setAllMessage] = useState<messageType[]>([]);
+    const [allMessage, setAllMessage] = useRecoilState<messageType[]>(allMessageAtom);
     const [roomPerson, setRoomPerson] = useState<number>(0);
 
     const messagesRef = useRef<HTMLDivElement>(null);
     const effectForRef = useRef<boolean>(false);
-
-    const sendMessage = async () => {
-        const messageData:messageType = {
-            message,
-            messageId : socket.id,
-            myId : "",
-        }
-        await socket.emit("client_send_message", messageData);
-        setAllMessage((pre)=>[...pre, messageData]);
-        setMessage("");
-    }
-
     useEffect(()=>{
         if(effectForRef.current === false) {
             const fetchMessage = () => {
@@ -67,6 +57,7 @@ export default function ChatBox({socket, chatToggle} : propsType) {
     useEffect(()=>{
           const fetchRoomPerson = () => {
             socket.on("roomPersonData_client", (roomPersonData)=>{
+                console.log(`roomPersonData : ${roomPersonData}`);
                 setRoomPerson(roomPersonData);
             })
           }
@@ -80,8 +71,10 @@ export default function ChatBox({socket, chatToggle} : propsType) {
         }
     },[allMessage]);
 
+    // 함수로 표현하는게 좋을듯?
     useEffect(()=>{
         setAllMessage([]);
+        setRoomPerson(0);
     },[chatToggle])
 
     return (
@@ -89,9 +82,9 @@ export default function ChatBox({socket, chatToggle} : propsType) {
             <Wrapper ref={messagesRef}>
             {
                 allMessage.map((messageData,index)=>{
-                    messageData.myId = socket.id;
+                    console.log(`messageData : ${messageData.message}`);
                     return (
-                        <ChatContent key={index} {...messageData}/>
+                        <ChatContent key={index} socket={socket} messageData={messageData}/>
                     )
                 })
             }
@@ -99,19 +92,9 @@ export default function ChatBox({socket, chatToggle} : propsType) {
             {
                 (chatToggle === "New Conversation") ? (
                     null
-                ) : ( roomPerson === 2 &&
-                    <div style={{minHeight:"35px",boxShadow : "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"}} className="flex items-center justify-between mb-6 px-3 rounded-md mr-5">
-                        <div className="w-full">
-                            <input
-                                onChange={(e)=>setMessage(e.target.value)}
-                                value={message} 
-                                placeholder='Messages...' 
-                                className='w-full focus:outline-none'
-                            />
-                        </div>
-                        {/* <button onClick={sendMessage}>send</button> */}
-                        <button onClick={sendMessage} className="z-50 material-symbols-outlined">send</button>
-                    </div>
+                ) : ( roomPerson === 2 && 
+                    <ChatInput socket={socket}/>
+
                 )
             }
         </div>

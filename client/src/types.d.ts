@@ -8,7 +8,6 @@ type ClientToServerEvents = {
     randomChatStart : (check:boolean) => void;
     client_send_message : (message:messageType) => void;
     randomChatLeave : (check:boolean) => void;
-    roomPersonData_server : (check:boolean) => void;
 }
 
 type roomType = {
@@ -21,5 +20,4 @@ type roomType = {
 type messageType = {
     message : string,
     messageId : string, 
-    myId : string,
 }

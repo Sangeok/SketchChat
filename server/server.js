@@ -41,10 +41,7 @@ io.on("connection", (socket)=>{
         if(check){
             ranChatStartHandler(socket, () => {
                 // ranChatStartHandler가 완료된 후에 실행될 콜백 함수
-                // roomId에 존재하는 user에게 broadcasting으로 방 인원을 전송
                 io.to(socket.roomObj.roomId).emit('roomPersonData_client', socket.roomObj.roomPerson);
-                // socket.to(socket.roomObj.roomId).emit("roomPersonData_client", socket.roomObj.roomPerson);
-                console.log("roomData 보냈다고요..");
             });
         }
     })
@@ -58,14 +55,6 @@ io.on("connection", (socket)=>{
     socket.on("client_send_message", (data)=>{
         console.log(`${socket.id}님이 채팅방 ${socket.roomObj.roomId}에 ${data.message}를 보내셨습니다.`)
         socket.to(socket.roomObj.roomId).emit("server_send_message", data);
-    })
-
-    socket.on("roomPersonData_server", (check)=>{
-        console.log(`현재 ${socket.id}님이 접속한 ${socket.roomObj.roomId}의 사람 수는 ${socket.roomObj.roomPerson}입니다.`);
-        if(check) {
-            console.log(`roomData보낸다고 씨발 ${socket.roomObj.roomPerson}`);
-            socket.to(socket.roomObj.roomId).emit("roomPersonData_client", socket.roomObj.roomPerson);
-        }
     })
 
     socket.on("disconnect", ()=>{

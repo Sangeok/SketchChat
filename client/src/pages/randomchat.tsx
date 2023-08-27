@@ -1,14 +1,18 @@
 import {useState, useRef, useEffect} from 'react'
 import {io, Socket} from 'socket.io-client';
 import ChatBox from '../components/chatBox';
+import {useRecoilState} from "recoil";
+import {allMessageAtom} from "../recoil/allMessageAtom";
 
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("http://localhost:3001");
 
 const Randomchat = () => {
     const [chatToggle, setChatToggle] = useState<string>("New Conversation");
+    const [allMessage, setAllMessage] = useRecoilState<messageType[]>(allMessageAtom);
 
-    const newRanChat= async () => {
-        await socket.emit("randomChatStart", true);
+
+    const newRanChat= () => {
+        socket.emit("randomChatStart", true);
         setChatToggle("Leave Conversation");
     }
 
