@@ -6,6 +6,7 @@ import Randomchat from '../pages/randomchat'
 import Myprofile from '../pages/myprofile'
 import Login from '../pages/login'
 import Findingroom from '../pages/findingroom'
+import Room from '../pages/room'
 
 
 const Routers = () => {
@@ -25,6 +26,7 @@ const Routers = () => {
                     <Route path="/login" element={<Login/>}/>
                 )
             }
+            <Route path="/room/:id" element={<Room/>}/>
         </Routes>
         </div>
     )

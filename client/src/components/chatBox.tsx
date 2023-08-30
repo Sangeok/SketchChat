@@ -1,6 +1,7 @@
 import React from 'react'
-import {useState, useRef, useEffect} from 'react'
+import {useState, useRef, useEffect, useContext} from 'react'
 import {io, Socket} from 'socket.io-client';
+import { SocketContext } from '../context/socket';
 
 import ChatContent from './chatContent';
 import ChatInput from './chatInput';
@@ -9,7 +10,6 @@ import {allMessageAtom} from "../recoil/allMessageAtom";
 import { styled } from 'styled-components';
 
 interface propsType {
-    socket: Socket<ServerToClientEvents, ClientToServerEvents>,
     chatToggle : string,
 }
 
@@ -31,7 +31,8 @@ const Wrapper = styled.div`
     }
 `;
 
-export default function ChatBox({socket, chatToggle} : propsType) {
+export default function ChatBox({chatToggle} : propsType) {
+    const socket = useContext<Socket>(SocketContext);
     const [allMessage, setAllMessage] = useRecoilState<messageType[]>(allMessageAtom);
     const [roomPerson, setRoomPerson] = useState<number>(0);
 

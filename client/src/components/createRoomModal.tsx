@@ -1,31 +1,44 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { createRoomAtom } from '../recoil/createRoomAtom';
 import { useRecoilState } from "recoil";
 import { Button, Dropdown, Label, Modal, TextInput } from 'flowbite-react';
 import {io, Socket} from 'socket.io-client';
 
-const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("http://localhost:3001");
+import { useNavigate } from 'react-router-dom';
 
-export default function CreateRoomModal() {
+import getRoomId from '../utils/getRoomId';
+
+interface propsType {
+  socket: Socket<ServerToClientEvents, ClientToServerEvents>,
+}
+
+export default function CreateRoomModal({socket} : propsType) {
+  const navigate = useNavigate();
   const limitPerson:number[] = [1,2,3,4];
 
   const [createRoomModal, setCreateRoomModal] = useRecoilState<Boolean>(createRoomAtom);
   const [roomTitle, setRoomTitle] = useState<string | undefined>("");
-  const [roomPerson, setRoomPerson] = useState<number | string>("Number of people");
+  const [roomLimitNumber, setRoomLimitNumber] = useState<number | string>("Number of people");
 
   const submitCreateRoom = ():void => {
     if(roomTitle === "") return alert("방 제목을 설정해주세요.");
-    if((typeof roomPerson) !== 'number') return alert("인원수를 설정해주세요.");
+    if((typeof roomLimitNumber) !== 'number') return alert("인원수를 설정해주세요.");
+    let newRoomId = getRoomId(socket);
+    console.log(`client에서 만든 roomId : ${newRoomId}`)
 
     const roomData:roomType = {
       roomTitle,
-      roomPerson,
+      roomLimitNumber,
+      roomUserId : [socket.id],
+      roomCurrentPersonNumber : 1,
       roomCreateCheck : true,
-      roomId : "",
+      roomId : newRoomId,
     }
     socket.emit("createRoom", roomData);
     // 방 생성 완료 시 modal창 닫기
     setCreateRoomModal(false);
+    // 만든 방으로 이동
+    navigate(`/room/${newRoomId}`)
   }
 
   return (
@@ -45,12 +58,12 @@ export default function CreateRoomModal() {
               <div className="mb-2 block">
                 <Label value="Number of people in Room" />
               </div>
-              <Dropdown label={roomPerson}>
+              <Dropdown label={roomLimitNumber}>
                 {
                   limitPerson.map((item,index)=>{
                     return (
                       <div>
-                        <Dropdown.Item onClick={()=>setRoomPerson(item)}>
+                        <Dropdown.Item onClick={()=>setRoomLimitNumber(item)}>
                           <div key={index}>{item}</div>
                         </Dropdown.Item>
                       </div>

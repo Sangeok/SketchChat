@@ -18,6 +18,7 @@ const disconnectHandler = require("./src/handlers/disconnectHandler");
 const createRoomHandler = require("./src/handlers/createRoomHandler");
 const ranChatStartHandler = require("./src/handlers/ranChatStartHandler");
 const ranChatLeaveHandler = require("./src/handlers/ranChatLeaveHandler");
+const enterRoomHandler = require("./src/handlers/enterRoomHandler");
 
 dotenv.config();
 
@@ -35,11 +36,20 @@ io.on("connection", (socket)=>{
         }
     })
 
+    socket.on("enterRoom", (enterUserData)=>{
+        if(enterUserData.enterCheck) {
+            enterRoomHandler(socket, enterUserData, () => {
+            // 그 후 client에 어떤 참여자가 참여했는지 알리기
+                io.to(enterUserData.enterRoomId).emit("enterRoomSucess", socket.id);
+            });
+        }
+    })
+
     // randomChat 방을 만듬
-    socket.on("randomChatStart", (check)=>{
+    socket.on("randomChatStart", (data)=>{
         console.log(`${socket.id}님이 랜덤채팅 시작하셨습니다..`);
-        if(check){
-            ranChatStartHandler(socket, () => {
+        if(data.check){
+            ranChatStartHandler(socket,data, () => {
                 // ranChatStartHandler가 완료된 후에 실행될 콜백 함수
                 io.to(socket.roomObj.roomId).emit('roomPersonData_client', socket.roomObj.roomPerson);
             });

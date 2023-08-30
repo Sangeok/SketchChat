@@ -8,6 +8,7 @@ interface propsType {
 }
 
 export default function ChatInput({socket} : propsType){
+    
     const [message, setMessage] = useState<string>("");
     const setAllMessage = useSetRecoilState<messageType[]>(allMessageAtom);
 

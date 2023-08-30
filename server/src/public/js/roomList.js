@@ -21,6 +21,39 @@ class roomList {
         
     }
 
+    findRoom(roomId) {
+        const room = this.roomArray.find(arr=> arr.roomId === roomId);
+        return room;
+    }
+
+    UpdateRoom(roomId) {
+
+    }
+
+    enterRoomPerson(socketId,id) {
+        // this를 사용하여 현재 클래스의 메서드를 호출함.(findRoom은 멤버 함수이므로..)
+        const enterRoom = this.findRoom(id);
+        
+        // 방에 입장할 수 있는지 검사.
+        console.log(`현재 방 인원수 ${enterRoom.roomCurrentPersonNumber }`);
+        console.log(`현재 방에 입장 가능 인원수 ${enterRoom.roomLimitNumber }`);
+        
+        enterRoom.roomCurrentPersonNumber += 1;
+        if(enterRoom.roomCurrentPersonNumber > enterRoom.roomLimitNumber) {
+            enterRoom.roomCurrentPersonNumber -= 1;
+            console.log("죄송합니다, 현재 방에 입장 가능한 인원을 초과하였습니다. ");
+            return false;
+        }
+
+        // 방 입장 시 입장한 user의 정보를 해당 방에 넣음.
+        enterRoom.roomUserId.push(socketId);
+
+        // 다시 roomArray에 넣어주지 않아도 됨.
+
+        // 아마 방 생성 시간도 넣어줘서 그 시간 순서대로 정렬이 되어서 사용자에게 보여줘야할듯
+
+    }
+
     clearRoomList() {
         this.roomArray = [];
     }

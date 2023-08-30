@@ -1,11 +1,10 @@
-module.exports = (socket,callback) => {
-    const getRoomId = require("../public/js/getRoomId");
+module.exports = (socket,data,callback) => {
     const ranChatModel = require('../models/ranChatListModel');
     const ranChatQueue = ranChatModel.getRanChatQueue();
 
     if(ranChatQueue.isEmpty()) {
         const roomObj = {
-            roomId : getRoomId(socket),
+            roomId : data.roomId,
             roomPerson : 1,
         }
         ranChatQueue.enqueue(roomObj);
