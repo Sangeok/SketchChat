@@ -46,11 +46,8 @@ class roomList {
         }
 
         // 방 입장 시 입장한 user의 정보를 해당 방에 넣음.
-        enterRoom.roomUserId.push(socketId);
-
         // 다시 roomArray에 넣어주지 않아도 됨.
-
-        // 아마 방 생성 시간도 넣어줘서 그 시간 순서대로 정렬이 되어서 사용자에게 보여줘야할듯
+        enterRoom.roomUserId.push(socketId);
 
     }
 

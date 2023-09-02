@@ -1,4 +1,4 @@
-import {useState,useEffect,useContext} from 'react'
+import {useState,useEffect,useContext, useRef} from 'react'
 import {useRecoilState, useRecoilValue} from "recoil";
 
 import { SocketContext } from '../context/socket';
@@ -11,6 +11,7 @@ import RoomList from '../components/roomList';
 
 const Findingroom = () => {
     const socket = useContext<Socket>(SocketContext);
+
     const [createRoomModal, setCreateRoomModal] = useRecoilState<Boolean>(createRoomAtom);
     const [roomListArr, setRoomListArr] = useState<roomType[]>([]);
 

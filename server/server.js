@@ -38,9 +38,9 @@ io.on("connection", (socket)=>{
 
     socket.on("enterRoom", (enterUserData)=>{
         if(enterUserData.enterCheck) {
-            enterRoomHandler(socket, enterUserData, () => {
-            // 그 후 client에 어떤 참여자가 참여했는지 알리기
-                io.to(enterUserData.enterRoomId).emit("enterRoomSucess", socket.id);
+            enterRoomHandler(socket, enterUserData, (canEnter) => {
+                // 그 후 client에 어떤 참여자가 참여했는지 알리기
+                if(canEnter) io.to(enterUserData.enterRoomId).emit("enterRoomSucess", socket.id);
             });
         }
     })
