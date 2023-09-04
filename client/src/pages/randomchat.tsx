@@ -1,7 +1,7 @@
 import {useState, useContext, useRef, useEffect} from 'react'
 import {io, Socket} from 'socket.io-client';
 import { SocketContext } from '../context/socket';
-import ChatBox from '../components/chatBox';
+import RanChatBox from '../components/ranChatBox';
 import {useRecoilState} from "recoil";
 import {allMessageAtom} from "../recoil/allMessageAtom";
 
@@ -39,7 +39,7 @@ const Randomchat = () => {
                     </button>
                 </div>
                 <div className="border-l-2 border-gray-200 h-100 m-4"></div>
-                <ChatBox chatToggle={chatToggle}/>
+                <RanChatBox chatToggle={chatToggle}/>
             </div>
         </div>
     )

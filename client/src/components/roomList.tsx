@@ -24,7 +24,6 @@ export default function RoomList({room} : propsType ) {
             enterRoomId : room.roomId,
         }
         await socket.emit("enterRoom",enterUserData);
-        // 입장 불가능 시, navigate를 따로 해줘야 함.
         navigate(`/room/${room.roomId}`);
     }
 

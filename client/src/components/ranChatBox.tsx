@@ -10,7 +10,7 @@ import {allMessageAtom} from "../recoil/allMessageAtom";
 import { styled } from 'styled-components';
 
 interface propsType {
-    chatToggle : string,
+    chatToggle? : string,
 }
 
 const Wrapper = styled.div`
@@ -31,7 +31,7 @@ const Wrapper = styled.div`
     }
 `;
 
-export default function ChatBox({chatToggle} : propsType) {
+export default function RanChatBox({chatToggle} : propsType) {
     const socket = useContext<Socket>(SocketContext);
     const [allMessage, setAllMessage] = useRecoilState<messageType[]>(allMessageAtom);
     const [roomPerson, setRoomPerson] = useState<number>(0);

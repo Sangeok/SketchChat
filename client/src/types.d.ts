@@ -29,7 +29,7 @@ type roomType = {
 
 type messageType = {
     message : string,
-    messageId : string, 
+    messageId : string,
 }
 
 type newRanChatDataType = {
