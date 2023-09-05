@@ -19,6 +19,7 @@ const createRoomHandler = require("./src/handlers/createRoomHandler");
 const ranChatStartHandler = require("./src/handlers/ranChatStartHandler");
 const ranChatLeaveHandler = require("./src/handlers/ranChatLeaveHandler");
 const enterRoomHandler = require("./src/handlers/enterRoomHandler");
+const leaveRoomHandler = require("./src/handlers/leaveRoomHandler");
 
 dotenv.config();
 
@@ -53,6 +54,12 @@ io.on("connection", (socket)=>{
                 // ranChatStartHandler가 완료된 후에 실행될 콜백 함수
                 io.to(socket.roomObj.roomId).emit('roomPersonData_client', socket.roomObj.roomPerson);
             });
+        }
+    })
+
+    socket.on("leaveRoom", (check)=>{
+        if(check) {
+            leaveRoomHandler(socket);
         }
     })
 

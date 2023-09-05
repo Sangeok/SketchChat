@@ -47,6 +47,7 @@ const RoomChatBox = () => {
                         const enterMessage:messageType = {
                             message : `${enterPersonId}님이 입장하셨습니다.`,
                             messageId : socket.id, // 이 부분을 broadcast면 가장 가운데에 나오게 하면 좋을듯
+                            notification : true,
                         }
                     setAllMessage((pre)=>[...pre, enterMessage]);
                 })
@@ -98,7 +99,7 @@ const RoomChatBox = () => {
     // },[chatToggle])
 
     return (
-        <div style={{maxHeight:"72vh", width : "100%"}} className="flex flex-col overflow-hidden py-2">
+        <div style={{maxHeight:"72vh", width : "100%"}} className="flex flex-col overflow-hidden py-2 px-5">
             <Wrapper ref={messagesRef}>
             {
                 allMessage.map((messageData,index)=>{

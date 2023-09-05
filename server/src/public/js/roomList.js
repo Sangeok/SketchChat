@@ -1,9 +1,13 @@
+const Room = require('./room'); // 이걸 model로 뺴는게 좋을듯?
+
 class roomList {
+    // 현재 roomList 뿐만 아니라 room에 대한 메소드까지 가지고 있음(나중에 최적화 필요)
     constructor() {
         this.roomArray = [];
     }
 
-    setRoomArray(room){
+    setRoomArray(roomTitle, roomLimitNumber, roomId, roomReaderId){
+        const room = new Room(roomTitle, roomLimitNumber, roomId, roomReaderId);
         this.roomArray.push(room);
     }
 
@@ -24,31 +28,6 @@ class roomList {
     findRoom(roomId) {
         const room = this.roomArray.find(arr=> arr.roomId === roomId);
         return room;
-    }
-
-    UpdateRoom(roomId) {
-
-    }
-
-    enterRoomPerson(socketId,id) {
-        // this를 사용하여 현재 클래스의 메서드를 호출함.(findRoom은 멤버 함수이므로..)
-        const enterRoom = this.findRoom(id);
-        
-        // 방에 입장할 수 있는지 검사.
-        console.log(`현재 방 인원수 ${enterRoom.roomCurrentPersonNumber }`);
-        console.log(`현재 방에 입장 가능 인원수 ${enterRoom.roomLimitNumber }`);
-        
-        enterRoom.roomCurrentPersonNumber += 1;
-        if(enterRoom.roomCurrentPersonNumber > enterRoom.roomLimitNumber) {
-            enterRoom.roomCurrentPersonNumber -= 1;
-            console.log("죄송합니다, 현재 방에 입장 가능한 인원을 초과하였습니다. ");
-            return false;
-        }
-
-        // 방 입장 시 입장한 user의 정보를 해당 방에 넣음.
-        // 다시 roomArray에 넣어주지 않아도 됨.
-        enterRoom.roomUserId.push(socketId);
-
     }
 
     clearRoomList() {

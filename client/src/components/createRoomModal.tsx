@@ -29,7 +29,6 @@ export default function CreateRoomModal({socket} : propsType) {
     const roomData:roomType = {
       roomTitle,
       roomLimitNumber,
-      roomUserId : [socket.id],
       roomCurrentPersonNumber : 1,
       roomCreateCheck : true,
       roomId : newRoomId,
