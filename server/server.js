@@ -46,6 +46,15 @@ io.on("connection", (socket)=>{
         }
     })
 
+    socket.on("leaveRoom", (check)=>{
+        if(check) {
+            leaveRoomHandler(socket, (beforeRoomId)=>{
+                console.log(`${socket.id}님이 떠나실 방은 ${beforeRoomId}입니다.`);
+                io.to(beforeRoomId).emit('leaveRoomSuccess', socket.id);
+            });
+        }
+    })
+
     // randomChat 방을 만듬
     socket.on("randomChatStart", (data)=>{
         console.log(`${socket.id}님이 랜덤채팅 시작하셨습니다..`);
@@ -54,12 +63,6 @@ io.on("connection", (socket)=>{
                 // ranChatStartHandler가 완료된 후에 실행될 콜백 함수
                 io.to(socket.roomObj.roomId).emit('roomPersonData_client', socket.roomObj.roomPerson);
             });
-        }
-    })
-
-    socket.on("leaveRoom", (check)=>{
-        if(check) {
-            leaveRoomHandler(socket);
         }
     })
 

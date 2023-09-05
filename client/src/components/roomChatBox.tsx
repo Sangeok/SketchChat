@@ -52,6 +52,17 @@ const RoomChatBox = () => {
                     setAllMessage((pre)=>[...pre, enterMessage]);
                 })
             }
+            const fetchLeaveRoom = () => {
+                socket.on("leaveRoomSuccess", (leavePersonId)=>{
+                        const enterMessage:messageType = {
+                            message : `${leavePersonId}님이 나가셨습니다.`,
+                            messageId : socket.id, // 이 부분을 broadcast면 가장 가운데에 나오게 하면 좋을듯
+                            notification : true,
+                        }
+                    setAllMessage((pre)=>[...pre, enterMessage]);
+                })
+            }
+            fetchLeaveRoom();
             fetchEnterRoom();
             fetchMessage();
         }

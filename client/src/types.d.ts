@@ -8,6 +8,7 @@ type ServerToClientEvents = {
     roomPersonData_client : (person:number) => void;
     enterRoomSucess : (enterUserId : string) => void;
     enterRoomFalse : (msg : string) => void;
+    leaveRoomSuccess : (socketId : string) => void;
 }
   
 type ClientToServerEvents = {

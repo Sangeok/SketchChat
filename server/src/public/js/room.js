@@ -11,7 +11,7 @@ class Room {
     enterRoom(UserId) {
         this.roomCurrentPersonNumber += 1;
         if(this.roomCurrentPersonNumber > this.roomLimitNumber) {
-            FindingEnterRoom.roomCurrentPersonNumber -= 1;
+            this.roomCurrentPersonNumber -= 1;
             console.log("죄송합니다, 현재 방에 입장 가능한 인원을 초과하였습니다. ");
             return false;
         }
