@@ -1,16 +1,18 @@
-import { Link } from "react-router-dom"
-import { useContext,useEffect } from "react";
+import { useContext } from "react";
 import { SocketContext } from "../context/socket";
-import { useRecoilState } from "recoil";
+
 
 import { Socket } from "socket.io-client";
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from "recoil";
+import { chatCheckAtom } from "../recoil/chatCheckAtom";
 
 interface propsType {
     room : roomType,
 }
 
 export default function RoomList({room} : propsType ) {
+    const setChatStart = useSetRecoilState<boolean>(chatCheckAtom);
     const navigate = useNavigate();
     const socket = useContext<Socket>(SocketContext);
 
@@ -24,6 +26,7 @@ export default function RoomList({room} : propsType ) {
             enterRoomId : room.roomId,
         }
         await socket.emit("enterRoom",enterUserData);
+        setChatStart(true);
         navigate(`/room/${room.roomId}`);
     }
 

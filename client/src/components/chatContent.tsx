@@ -8,15 +8,15 @@ interface propsType {
 export default function ChatContent({socket, messageData}: propsType ) {
 
     return (
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full px-5">
             {
                 messageData.notification ? (
-                    <div className="self-center px-5">
+                    <div className="self-center">
                         {messageData.message}
                     </div>
                 ) : (
                 socket.id === messageData.messageId ? (
-                    <div className="self-end px-5">
+                    <div className="self-end">
                         {messageData.message}
                     </div>
                 ) : (

@@ -9,6 +9,8 @@ import { createRoomAtom } from '../recoil/createRoomAtom';
 import CreateRoomModal from '../components/createRoomModal';
 import RoomList from '../components/roomList';
 
+import { useNavigate, useBeforeUnload} from 'react-router-dom';
+
 const Findingroom = () => {
     const socket = useContext<Socket>(SocketContext);
 
@@ -24,7 +26,6 @@ const Findingroom = () => {
         })
         .then((res)=>res.json())
         .then((res)=>{
-          console.log(res.roomArray.length);
           setRoomListArr(res.roomArray)
         });
       },[])

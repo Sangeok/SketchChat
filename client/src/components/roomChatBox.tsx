@@ -30,10 +30,10 @@ const Wrapper = styled.div`
 const RoomChatBox = () => {
     const socket = useContext<Socket>(SocketContext);
     const [allMessage, setAllMessage] = useRecoilState<messageType[]>(allMessageAtom);
-    // const [roomPerson, setRoomPerson] = useState<number>(0);
 
     const messagesRef = useRef<HTMLDivElement>(null);
     const effectForRef = useRef<boolean>(false);
+    
     useEffect(()=>{
         if(effectForRef.current === false) {
             const fetchMessage = () => {
@@ -72,30 +72,6 @@ const RoomChatBox = () => {
            }
     },[socket])
 
-    // useEffect(()=>{
-    //       const fetchEnterRoom = () => {
-    //         socket.on("enterRoomSucess", (enterPersonId)=>{
-    //             const enterMessage:messageType = {
-    //                 message : `${enterPersonId}님이 입장하셨습니다.`,
-    //                 messageId : socket.id, // 이 부분을 broadcast면 가장 가운데에 나오게 하면 좋을듯
-    //                 messageDataType : "roomChat",
-    //             }
-    //             setAllMessage((pre)=>[...pre, enterMessage]);
-    //         })
-    //       }
-    //       fetchEnterRoom();
-    // },[socket])
-
-    // useEffect(()=>{
-    //       const fetchRoomPerson = () => {
-    //         socket.on("roomPersonData_client", (roomPersonData)=>{
-    //             console.log(`roomPersonData : ${roomPersonData}`);
-    //             setRoomPerson(roomPersonData);
-    //         })
-    //       }
-    //       fetchRoomPerson();
-    // },[socket])
-
     // chatContent의 대화가 길어지면 자동으로 scroll이 내려가게함. 
     useEffect(()=>{
         if (messagesRef.current) {
@@ -103,14 +79,8 @@ const RoomChatBox = () => {
         }
     },[allMessage]);
 
-    // 함수로 표현하는게 좋을듯?
-    // useEffect(()=>{
-    //     setAllMessage([]);
-    //     setRoomPerson(0);
-    // },[chatToggle])
-
     return (
-        <div style={{maxHeight:"72vh", width : "100%"}} className="flex flex-col overflow-hidden py-2 px-5">
+        <div style={{maxHeight:"72vh", width : "100%"}} className="flex flex-col overflow-hidden py-2">
             <Wrapper ref={messagesRef}>
             {
                 allMessage.map((messageData,index)=>{

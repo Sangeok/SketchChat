@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { createRoomAtom } from '../recoil/createRoomAtom';
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { Button, Dropdown, Label, Modal, TextInput } from 'flowbite-react';
 import {io, Socket} from 'socket.io-client';
 
 import { useNavigate } from 'react-router-dom';
 
 import getRoomId from '../utils/getRoomId';
+import { chatCheckAtom } from '../recoil/chatCheckAtom';
 
 interface propsType {
   socket: Socket<ServerToClientEvents, ClientToServerEvents>,
@@ -15,6 +16,8 @@ interface propsType {
 export default function CreateRoomModal({socket} : propsType) {
   const navigate = useNavigate();
   const limitPerson:number[] = [1,2,3,4];
+
+  const setChatStart = useSetRecoilState<boolean>(chatCheckAtom);
 
   const [createRoomModal, setCreateRoomModal] = useRecoilState<Boolean>(createRoomAtom);
   const [roomTitle, setRoomTitle] = useState<string | undefined>("");
@@ -36,6 +39,7 @@ export default function CreateRoomModal({socket} : propsType) {
     socket.emit("createRoom", roomData);
     // 방 생성 완료 시 modal창 닫기
     setCreateRoomModal(false);
+    setChatStart(true);
     // 만든 방으로 이동
     navigate(`/room/${newRoomId}`)
   }

@@ -2,15 +2,16 @@ import {useState, useContext, useRef, useEffect} from 'react'
 import {io, Socket} from 'socket.io-client';
 import { SocketContext } from '../context/socket';
 import RanChatBox from '../components/ranChatBox';
-import {useRecoilState} from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {allMessageAtom} from "../recoil/allMessageAtom";
 
 import getRoomId from "../utils/getRoomId";
+import { chatCheckAtom } from '../recoil/chatCheckAtom';
 
 const Randomchat = () => {
     const socket = useContext<Socket>(SocketContext);
+    const setChatStart = useSetRecoilState<boolean>(chatCheckAtom);
     const [chatToggle, setChatToggle] = useState<string>("New Conversation");
-    const [allMessage, setAllMessage] = useRecoilState<messageType[]>(allMessageAtom);
 
 
     const newRanChat= () => {
@@ -20,11 +21,13 @@ const Randomchat = () => {
         }
         socket.emit("randomChatStart", newRanChatData);
         setChatToggle("Leave Conversation");
+        setChatStart(true);
     }
 
     const leaveRanChat = () => {
         socket.emit("randomChatLeave", true);
         setChatToggle("New Conversation");
+        setChatStart(false);
     }
 
     return (
@@ -38,7 +41,7 @@ const Randomchat = () => {
                         {chatToggle}
                     </button>
                 </div>
-                <div className="border-l-2 border-gray-200 h-100 m-4"></div>
+                <div className="border-l-2 border-gray-200 h-100 my-4"></div>
                 <RanChatBox chatToggle={chatToggle}/>
             </div>
         </div>
